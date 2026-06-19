@@ -1,0 +1,13 @@
+package main
+
+import (
+	"go_in_memory_crud/internal/routes"
+
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	router := gin.Default()
+	routes.RegisterRoutes(router)
+	router.Run(":8080")
+}
