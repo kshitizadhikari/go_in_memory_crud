@@ -37,6 +37,7 @@ func (h *UserHandler) GetUserById(c *gin.Context) {
 		c.JSON(404, gin.H{
 			"error": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(200, user)
@@ -111,6 +112,7 @@ func (h *UserHandler) PatchUser(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "invalid request id",
 		})
+		return
 	}
 
 	var req map[string]interface{}
@@ -120,6 +122,7 @@ func (h *UserHandler) PatchUser(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "invalid request body",
 		})
+		return
 	}
 
 	user, err := h.service.PatchUser(id, req)
@@ -127,7 +130,30 @@ func (h *UserHandler) PatchUser(c *gin.Context) {
 		c.JSON(500, gin.H{
 			"error": err.Error(),
 		})
+		return
 	}
 
 	c.JSON(200, user)
+}
+
+func (h *UserHandler) DeleteUser(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "invalid request id",
+		})
+		return
+	}
+
+	err = h.service.DeleteUser(id)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "user deleted successfully",
+	})
 }

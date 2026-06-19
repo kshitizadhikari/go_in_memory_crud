@@ -1,6 +1,7 @@
 package user
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -81,4 +82,15 @@ func (s *UserService) PatchUser(id int, req map[string]interface{}) (*User, erro
 
 	return user, nil
 
+}
+
+func (s *UserService) DeleteUser(id int) error {
+	for i := range s.users {
+		if s.users[i].Id == id {
+			s.users = append(s.users[:i], s.users[i+1:]...)
+			return nil
+		}
+	}
+
+	return errors.New("user not found")
 }
