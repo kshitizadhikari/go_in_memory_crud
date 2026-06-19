@@ -45,3 +45,22 @@ func (s *UserService) GetUserById(id int) (*User, error) {
 
 	return nil, fmt.Errorf("user with id(%d) not found", id)
 }
+
+func (s *UserService) CreateUser(req User) (*User, error) {
+	req.Id = s.nextId
+	s.users = append(s.users, req)
+	s.nextId++
+	return &s.users[req.Id-1], nil
+}
+
+func (s *UserService) UpdateUser(id int, req User) (*User, error) {
+	user, err := s.GetUserById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Name = req.Name
+	user.Email = req.Email
+
+	return user, nil
+}
