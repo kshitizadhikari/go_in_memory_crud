@@ -64,3 +64,21 @@ func (s *UserService) UpdateUser(id int, req User) (*User, error) {
 
 	return user, nil
 }
+
+func (s *UserService) PatchUser(id int, req map[string]interface{}) (*User, error) {
+	user, err := s.GetUserById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if name, exists := req["name"].(string); exists {
+		user.Name = name
+	}
+
+	if email, exists := req["email"].(string); exists {
+		user.Email = email
+	}
+
+	return user, nil
+
+}
