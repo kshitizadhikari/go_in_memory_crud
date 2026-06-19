@@ -14,5 +14,6 @@ func RegisterRoutes(router *gin.Engine) {
 	userHandler := user.NewUserHandler(userService)
 
 	v1.GET("/users", userHandler.GetUsers)
+	v1.GET("/users/:id", userHandler.GetUserById)
 
 }
